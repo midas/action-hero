@@ -3,8 +3,6 @@ module ActionDispatch
     class RouteSet
       class Dispatcher
 
-      private
-
         def controller(params, default_controller=true)
           if params && params.key?(:controller)
             controller_param = params[:controller]
@@ -14,6 +12,8 @@ module ActionDispatch
         rescue NameError => e
           raise ActionController::RoutingError, e.message, e.backtrace if default_controller
         end
+
+      private
 
         def controller_reference(controller_param, action_param)
           const_name = @controller_class_names[controller_param] ||= "#{controller_param.camelize}Controller"
