@@ -4,7 +4,7 @@ module ActionHero
     def start_processing( event )
       controller_name = "#{event.payload[:params]['controller'].camelize}Controller"
       unless event.payload[:controller] == controller_name
-        info "[ActionHero] No explicit #{controller_name} falling back to #{event.payload[:controller]}"
+        info "[Action Hero] No explicit #{controller_name} defined, using #{event.payload[:controller]}"
       end
     end
 
