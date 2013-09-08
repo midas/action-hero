@@ -153,7 +153,7 @@ Define a controller with a show action method and define an action class for the
     # app/actions/things/index.rb
     module Things
       class Index
-        include ActionHero::action
+        include ActionHero::Action
 
         def call
           ...
@@ -163,7 +163,7 @@ Define a controller with a show action method and define an action class for the
 
 ### Controller Methods Available in Action Class
 
-The following methods forwarded from the the action class to the controller.
+The following methods forward from the the action class to the controller.
 
 * action_name
 * env
