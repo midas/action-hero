@@ -160,3 +160,36 @@ Define a controller with a show action method and define an action class for the
         end
       end
     end
+
+### Controller Methods Available in Action Class
+
+The following methods forwarded from the the action class to the controller.
+
+* action_name
+* env
+* flash
+* formats
+* head
+* headers
+* params
+* redirect_to
+* render
+* render_to_string
+* request
+* reset_session
+* respond_with
+* response
+* session
+* url_for
+* url_options
+
+### Logging And Implicit Controllers
+
+When an implicit controller is used ActionHero adds a line to the normal Rails request logging in order
+to clarify that the implicit controller is being used in place of an explicit controller, giving the
+correct information of what th eexplicit controller would be inorder to clarify what is going on and 
+aid in debugging, etc.
+
+    Started GET "/" for 127.0.0.1 at 2013-09-08 12:38:26 -0500                                                                                                    │
+      [Action Hero] No explicit DashboardController defined, using ImplicitController
+      Processing by ImplicitController#show as HTML
