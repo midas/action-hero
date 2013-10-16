@@ -16,7 +16,7 @@ module ActionDispatch
       private
 
         def controller_reference(controller_param, action_param)
-          const_name = @controller_class_names[controller_param] ||= "#{controller_param.camelize}Controller"
+          const_name = (@controller_class_names || @controllers)[controller_param] ||= "#{controller_param.camelize}Controller"
           ActiveSupport::Dependencies.constantize(const_name)
         rescue NoMethodError
           # protect against misidentification due to
