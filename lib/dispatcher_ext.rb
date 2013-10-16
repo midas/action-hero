@@ -32,7 +32,7 @@ module ActionDispatch
           controller_const = nil
           ActionHero.configuration.implicit_controllers.each do |regex, controller|
             if regex.match( "/#{controller_param}" )
-              controller_const = controller
+              controller_const = controller.constantize
               break
             end
           end

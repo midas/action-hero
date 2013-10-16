@@ -5,7 +5,7 @@ module ActionHero
                 :action_name
 
     def initialize( options )
-      @module_name = normalize_controller( options )
+      @module_name = normalize_controller( options ).pluralize
       @action_name = options[:action_name]
     end
 
