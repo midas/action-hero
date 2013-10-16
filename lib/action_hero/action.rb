@@ -6,6 +6,8 @@ module ActionHero
 
     extend ActiveSupport::Concern
 
+    include Rails.application.routes.url_helpers
+
     included do
 
       extend Forwardable
