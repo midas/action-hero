@@ -43,6 +43,7 @@ module ActionHero
       name = args.first.is_a?( Symbol ) ? args.first : (raise NotImplementedError)
       value = args.last
       instance_variable_set "@#{name}", value
+      self.class.send( :define_method, name, lambda { instance_variable_get "@#{name}" } )
       controller.send :expose, *args
     end
 
