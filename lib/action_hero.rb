@@ -1,16 +1,18 @@
 require "action_hero/version"
-require "dispatcher_ext"
+require "dispatcher_ext" # TODO require for Rails only
 
 module ActionHero
 
   class ActionNotFound < StandardError #:nodoc:
   end
 
-  autoload :Action,         'action_hero/action'
   autoload :ActionResolver, 'action_hero/action_resolver'
   autoload :Configuration,  'action_hero/configuration'
-  autoload :Controller,     'action_hero/controller'
+  autoload :Grape,          'action_hero/grape'
   autoload :LogSubscriber,  'action_hero/log_subscriber'
+  autoload :MockController, 'action_hero/mock_controller'
+  autoload :ParamReader,    'action_hero/param_reader'
+  autoload :Rails,          'action_hero/rails'
 
   def self.configuration
     @configuration ||= Configuration.new
@@ -22,4 +24,5 @@ module ActionHero
 
 end
 
+# TODO for Rails only
 ActionHero::LogSubscriber.attach_to :action_controller
