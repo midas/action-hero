@@ -29,7 +29,7 @@ module ActionHero
                 "The action #{action_class_name} nor #{self.class.name}##{name} could be found",
                 ex.backtrace
         end
-        prepend_view_path "#{Rails.root}/app/views/#{params[:controller]}"
+        prepend_view_path "#{::Rails.root}/app/views/#{params[:controller]}"
         execute_action
       end
 

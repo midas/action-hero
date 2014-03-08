@@ -21,7 +21,7 @@ module ActionHero
     end
 
     def action_class_file_exists?
-      File.exists?( Rails.root.join( 'app', 'actions', "#{action_class_name.underscore}.rb" ))
+      File.exists?( ::Rails.root.join( 'app', 'actions', "#{action_class_name.underscore}.rb" ))
     end
 
   protected
