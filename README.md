@@ -1,6 +1,6 @@
 # ActionHero
 
-Move actions from methods in Rails controllers to action classes.
+Move actions from methods in Rails controllers and Grape endoints to action classes.
 
 
 ## Motiviation
@@ -29,15 +29,15 @@ Or install it yourself as:
     $ gem install action-hero
 
 
-## Usage
+## Usage: Rails
 
 ### Simplest Case
 
-Include the ActionHero::Controller module in a controller.
+Include the ActionHero::Rails::Controller module in a controller.
 
     # app/controllers/things_controller.rb
     class ThingsController < ApplicationController
-      include ActionHero::Controller
+      include ActionHero::Rails::Controller
     end
 
 Define the action class.
@@ -45,7 +45,7 @@ Define the action class.
     # app/actions/things/index.rb
     module Things
       class Index
-        include ActionHero::Action
+        include ActionHero::Rails::Action
 
         def call
           expose :things, Thing.all
@@ -100,7 +100,7 @@ Ensure an implicit controller is defined.  Without configuration, the implicit c
 
     # app/controllers/implicit_controller.rb
     class ImplicitController < ApplicationController
-      include ActionHero::Controller
+      include ActionHero::Rails::Controller
     end
 
 
@@ -113,12 +113,12 @@ Define the implicit controllers.
 
     # app/controllers/implicit_controller.rb
     class ImplicitController < ApplicationController
-      include ActionHero::Controller
+      include ActionHero::Rails::Controller
     end
 
     # app/controllers/api/v1/implicit_controller.rb
     class Api::V1::ImplicitController < ApplicationController
-      include ActionHero::Controller
+      include ActionHero::Rails::Controller
     end
 
 Configure the usage.  The configuration uses regexs to match against the #controller_name and will use the first one 
@@ -136,14 +136,14 @@ matched, so order matters.
 
 You can mix and match usage of ActionHero action classes and standard Rails controller action methods.
 
-In order to unobtrusively tie in to the controller, ActionHero::Controller implements the #action_missing 
+In order to unobtrusively tie in to the controller, ActionHero::Rails::Controller implements the #action_missing 
 method.  Thus, if you implement both an aciton class and an action method, the action method will win.
 
 Define a controller with a show action method and define an action class for the index action.
 
     # app/controllers/things_controller.rb
     class ThingsController < ApplicationController
-      include ActionHero::Controller
+      include ActionHero::Rails::Controller
 
       def show
         ...
@@ -153,7 +153,7 @@ Define a controller with a show action method and define an action class for the
     # app/actions/things/index.rb
     module Things
       class Index
-        include ActionHero::Action
+        include ActionHero::Rails::Action
 
         def call
           ...
@@ -193,3 +193,60 @@ aid in debugging, etc.
     Started GET "/" for 127.0.0.1 at 2013-09-08 12:38:26 -0500                                                                                                    │
       [Action Hero] No explicit DashboardController defined, using ImplicitController
       Processing by ImplicitController#show as HTML
+
+
+## Usage: Grape
+
+### Simplest Case
+
+Unlike the ActionHero::Rails::Controller module that must be included in each controller, the
+ActionHero::Grape::Endpoint is automatically included in the Grape::Endpoint when the action-hero 
+gem is required.
+
+Define the action class.
+
+    # app/actions/api/v1/things/index.rb
+    module Api
+      module V1
+        module Things
+          class Index
+            include ActionHero::Grape::Action
+
+            def call
+              expose Thing.all
+            end
+          end
+        end
+      end
+    end
+
+Use the action class in an endpoint.
+
+    module SomeApplication
+      class ApiV1
+        class ThingsEndpoint < Grape::API
+
+          get do
+            ::Api::V1::Things::Index.new( self ).call
+          end
+
+        end
+      end
+    end
+
+
+### Endpoint Methods Available in Action Class
+
+The following methods forward from the the action class to the endpoint.
+
+* content_type
+* cookies
+* error!
+* headers
+* params
+* redirect
+* route
+* routes
+* status
+* version
+
