@@ -26,7 +26,7 @@ module ActionHero
           raise
         rescue NameError => ex
           raise ActionNotFound,
-                "The action #{action_class_name} nor #{self.class.name}##{name} could be found",
+                "The action #{action_class_name} nor #{self.class.name}##{name} could be found, INNER EXCEPTION: #{ex.message}",
                 ex.backtrace
         end
         prepend_view_path "#{::Rails.root}/app/views/#{params[:controller]}"
