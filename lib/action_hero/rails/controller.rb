@@ -6,8 +6,6 @@ module ActionHero
 
       extend ActiveSupport::Concern
 
-    protected
-
       def expose( *args )
         name = args.first.is_a?( Symbol ) ? args.first : (raise NotImplementedError)
         value = args.last
@@ -16,6 +14,8 @@ module ActionHero
         self.class.helper_method name
         value
       end
+
+    protected
 
       def action_missing( name, *args, &block )
         begin
